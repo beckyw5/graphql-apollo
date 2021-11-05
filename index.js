@@ -10,24 +10,54 @@ const typeDefs = gql`
     night: Boolean!
     elevationGain: Int!
   }
+  
   enum LiftStatus {
     OPEN
     HOLD
     CLOSED
   }
+  
+  type Trail {
+    id: ID!
+    name: String!
+    status: TrailStatus
+    difficulty: String!
+    groomed: Boolean!
+  } 
+    
+  enum TrailStatus {
+    OPEN
+    CLOSED
+  }
+  
   type Query {
-    liftCount: Int!
-    allLifts: [Lift!]!
-    getLiftById(id: ID!): Lift!
+    allLifts(status: LiftStatus): [Lift!]!
+    Lift(id: ID!): Lift!
+    liftCount(status: LiftStatus!): Int!
+    allTrails: [Trail!]!
+    Trail(id: ID!): Trail!
+    trailCount(status: TrailStatus!): Int!
   }
 `;
-// TODO: Yell at Eve if she doesn't explain what parent is
+
 const resolvers = {
     Query: {
         liftCount: () => lifts.length,
         allLifts: () => lifts,
-        getLiftById: (parent, args) =>
-            lifts.find(lift => args.id === lift.id)
+        Lift: (parent, args) =>
+            lifts.find(lift => args.id === lift.id),
+        allTrails: () => trails,
+        trailCount: (parent, args) =>
+            {
+                if (!args.status) {
+                    return trails.length;
+                } else {
+                    return trails.filter( trail =>
+                        trail.status === args.status ).length;
+                }
+            },
+        Trail: (parent, args) =>
+            trails.find(trail => args.id === trail.id),
     }
 };
 const server = new ApolloServer({

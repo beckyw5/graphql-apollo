@@ -27,6 +27,36 @@ query {
 }
 ```
 
+All trails:
+```
+query {
+	allTrails {
+    name
+  }
+}
+```
+
+Trail status:
+```
+query {
+  trailCount(status:OPEN)
+}
+```
+```
+query {
+  trailCount(status:CLOSED)
+}
+```
+
+Train by ID:
+```
+query {
+	Trail(id: "blue-bird") {
+    name
+  }
+}
+```
+
 ## Curl examples
 ```
 curl -X POST \
