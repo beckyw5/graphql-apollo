@@ -24,3 +24,11 @@ query {
   allLifts
 }
 ```
+
+## Curl examples
+```
+curl -X POST \
+     -H "Content-Type: application/json" \
+     --data '{ "query": "{allLifts{name}}" }' \
+     http://localhost:4000/
+```
