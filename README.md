@@ -11,8 +11,16 @@ In this activity, you'll create an API for Snowtooth Mountain, a fake ski resort
 5. Open the browser to: `http://localhost:4000`
 
 ## Query examples
+Lift count:
 ```
 query {
   LiftCount
+}
+```
+
+All lifts:
+```
+query {
+  allLifts
 }
 ```
